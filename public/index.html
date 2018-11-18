@@ -1,12 +1,250 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Path Finder</title>
-        <script src="lib/p5.min.js"></script>
-        <script src="main.js"></script>
-        <script src="Path.js"></script>
-        <script src="Rocket.js"></script>
-    </head>
-    <body>
+	<head>
+		<title>API Tester</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+	</head>
+	<body>
+		<header>
+			<h1>API Tester</h1>
+			<nav>
+				<ul>
+					<li><a href="#" id="autoBgChangeBtn">BG-false</a></li>
+					<li><a href="#" id="bgChangeBtn">Change BG</a></li>
+				</ul>
+			</nav>
+		</header>
+		<!-- <div class="controller">
+			<div class="title">
+				<span>x</span>
+			</div>
+			<div class="body">
+				<button onclick="displayWord()">Get Word</button>
+			</div>
+		</div> -->
+		<main>
+			<h1>Flash Sale Test</h1>
+			<!-- <button onclick="getTime()">Get Time</button> -->
+			<br><br><br>
+			<div id="output"></div>
+			<script>
+				(() => {
+					let date = new Date().getTime();
+					let b = new Date();
+					b.setHours(18);
+					b.setMinutes(30);
+					let d = b.getTime() - date;
+					let h = Math.floor(d / 1000 / 60 / 60);
+					let m = Math.floor(d / 1000/ 60 % h);
+					let s = Math.floor(d / 1000);
+					console.log(h + ' : ' + m + ' : ' + s);
+				})();
+				
+			</script>
+			<script>
+			
+			function getTime() {
+			const api = 'http://localhost:3000/time';
 
-    </body>
+				fetch(api).then(function(response) {
+					response.json().then(function(data) {
+						const dataHtml = `<span>${data.h} ${data.m} ${data.s}`;
+						document.querySelector('#output').innerHTML = dataHtml;
+					});
+				});
+			}
+			window.addEventListener('load', function() {
+				const timer = setInterval(function() {
+					// getTime();
+				}, 1000);
+			});
+        
+        </script>
+		</main>
+<style>
+* {
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	padding: 0;
+	padding-bottom: 50px;
+	user-select: none;
+	background: url("https://cdn.pixabay.com/photo/2018/11/01/05/33/british-columbia-3787200_960_720.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	margin: 0;
+	padding: 10px 20px;
+	background-color: #02182B;
+	overflow: hidden;
+}
+header h1 {
+	margin: 0;
+	color: rgba(255, 255, 255, 0.7);
+	font-size: 24px;
+	display: inline;
+}
+nav {
+	display: inline-block;
+	float: right;
+	position: relative;
+	top: 5px;
+}
+.nav::after {
+	content: "";
+	float: none;
+}
+nav ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+nav li {
+	display: inline-block;
+	color: rgba(255, 255, 255, 0.7);
+	padding: 0px 5px;
+}
+nav li a {
+	color: rgba(255, 255, 255, 0.7);
+	text-decoration: none;
+}
+main {
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 5px;
+	padding: 20px;
+	min-height: 300px;
+	margin: auto;
+	margin-top: 80px;
+	width: 90%;
+	word-wrap: break-word;
+}
+.controller {
+	position: fixed;
+	right: 50px;
+	top: 80px;
+	width: 400px;
+	min-height: 200px;
+	border-radius: 5px;
+	box-shadow: -5px 5px 10px 5px rgba(0, 0, 0, 0.3);
+	background-color: #fff;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+.controller .title {
+	position: relative;
+	top: 0;
+	padding: 5px;
+	background-color: gray;
+	color: #fff;
+}
+.controller .body {
+	position: relative;
+	top: 5px;
+	padding: 10px;
+}
+p {
+	margin: 3px;
+}
+.hiddenPlace {
+	display: none;
+}
+.error {
+	color: red;
+}
+.success {
+	color: green;
+}
+.warning {
+	color: orange;
+}
+@media only screen and ( max-width : 1200px ) {
+	body {
+		background-size: auto 100%;
+	}
+	main {
+		width: 98%;
+	}
+}
+
+</style>
+
+
+		<!-- <div class="hiddenPlace"></div> -->
+	<script>
+	
+/*
+* @auther : Arun lalithambaran
+* @Description : Main app script for API-Tester
+*/
+(()=> {
+	var imageData = null;
+	var settings = {
+		autoBgChange : false
+	};
+	var autoBgChangeBtn = document.querySelector('#autoBgChangeBtn');
+	var bgChangeBtn = document.querySelector('#bgChangeBtn');
+	function save() {
+		localStorage.setItem('settings', JSON.stringify(settings));
+	}
+	function reload() {
+		var tempSettings = JSON.parse(localStorage.getItem('settings'));
+		if(tempSettings != null) {
+			settings = tempSettings;
+		}
+		autoBgChangeBtn.innerHTML = 'BG-'+settings.autoBgChange;
+	}
+	function loadImages() {
+		var q = "";
+		var color = "blue,green";
+		api = "https://pixabay.com/api/?key=10153709-f49a949fa2e123be49ca87c45&q="+q+"&colors="+color+"&image_type=photo&min-width=1920&pretty=true";
+		// document.body.style.background = "green";
+		return fetch(api).then(function(response) {
+			return response.json().then(function(data) {
+				return data;
+			});
+		});
+	}
+	async function changeBg() {
+		if(imageData == null) {
+			imageData = await loadImages();
+			setBg();
+		} else {
+			setBg();
+		}
+		function setBg() {
+			let i = Math.floor(Math.random() * imageData.hits.length);
+			document.body.style.background = "url("+imageData.hits[i].largeImageURL+")";
+			document.body.style.backgroundSize = "100%";
+		}
+	}
+
+	var timer = setInterval(function() {
+		if(settings.autoBgChange) {
+			changeBg();
+		}
+	}, 60000);
+	window.addEventListener('load', () => {
+		reload();
+	})
+	autoBgChangeBtn.addEventListener('click', (e)=> {
+		e.preventDefault();
+		settings.autoBgChange = !settings.autoBgChange;
+		autoBgChangeBtn.innerHTML = 'BG-'+settings.autoBgChange;
+		save();
+	});
+	bgChangeBtn.addEventListener('click', (e) => {
+		e.preventDefault();
+		changeBg();
+	});
+})();
+
+
+	</script>
+	</body>
 </html>
