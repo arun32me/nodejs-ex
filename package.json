@@ -1,20 +1,28 @@
 {
   "name": "nodejs-ex",
-  "version": "1.0.0",
-  "description": "Node App Demo",
+  "version": "0.0.1",
+  "description": "Node.js sample app for OpenShift 3",
   "main": "server.js",
+  "dependencies": {
+      "express": "*",
+      "mongodb": "*",
+      "ejs": "*"
+  },
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arun32me/nodejs-ex.git"
+    "url": "http://github.com/openshift/nodejs-ex.git"
   },
-  "author": "Arun Lalithambaran",
-  "license": "MIT",
+  "author": "Steve Speicher <sspeiche@gmail.com>",
+  "license": "",
   "bugs": {
-    "url": "https://github.com/arun32me/nodejs-ex/issues"
+    "url": "http://github.com/openshift/nodejs-ex/issues"
   },
-  "homepage": "https://github.com/arun32me/nodejs-ex#readme"
+  "homepage": "http://github.com/openshift/nodejs-ex"
 }
