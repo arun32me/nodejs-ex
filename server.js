@@ -9,7 +9,9 @@ var app     = express();
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
-
+app.get('/hello', function(req, res) {
+  res.send('hello world');
+});
 
 app.use(express.static('public'));
 
